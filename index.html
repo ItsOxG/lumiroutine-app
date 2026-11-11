@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LumiRoutine - App para Padres</title>
+    
+    <!-- Tailwind CSS para estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lumi: '#168DFF',
+                        dorado: '#FFC928',
+                        cristal: '#BCEBFF'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- React y Babel para la interactividad y componentes -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Iconos de Phosphor Icons (Ligeros y limpios) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-slate-200 min-h-screen flex items-center justify-center py-10 font-sans">
+    
+    <!-- Contenedor principal donde se renderizará la App -->
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('inicio');
+
+            // Componente de Navegación Inferior
+            const BottomNav = () => (
+                <div className="absolute bottom-0 w-full bg-white border-t border-gray-100 flex justify-between px-6 py-4 rounded-b-[32px]">
+                    <button onClick={() => setActiveTab('inicio')} className={`flex flex-col items-center gap-1 ${activeTab === 'inicio' ? 'text-lumi' : 'text-gray-400'}`}>
+                        <i className={`ph ${activeTab === 'inicio' ? 'ph-house-fill' : 'ph-house'} text-2xl`}></i>
+                        <span className="text-[10px] font-semibold">Inicio</span>
+                    </button>
+                    <button onClick={() => setActiveTab('rutinas')} className={`flex flex-col items-center gap-1 ${activeTab === 'rutinas' ? 'text-lumi' : 'text-gray-400'}`}>
+                        <i className={`ph ${activeTab === 'rutinas' ? 'ph-list-checks-fill' : 'ph-list-checks'} text-2xl`}></i>
+                        <span className="text-[10px] font-semibold">Rutinas</span>
+                    </button>
+                    <button onClick={() => setActiveTab('progreso')} className={`flex flex-col items-center gap-1 ${activeTab === 'progreso' ? 'text-lumi' : 'text-gray-400'}`}>
+                        <i className={`ph ${activeTab === 'progreso' ? 'ph-chart-line-up-fill' : 'ph-chart-line-up'} text-2xl`}></i>
+                        <span className="text-[10px] font-semibold">Progreso</span>
+                    </button>
+                    <button onClick={() => setActiveTab('dispositivo')} className={`flex flex-col items-center gap-1 ${activeTab === 'dispositivo' ? 'text-lumi' : 'text-gray-400'}`}>
+                        <i className={`ph ${activeTab === 'dispositivo' ? 'ph-watch-fill' : 'ph-watch'} text-2xl`}></i>
+                        <span className="text-[10px] font-semibold">Reloj</span>
+                    </button>
+                </div>
+            );
+
+            // Pantalla de Inicio
+            const PantallaInicio = () => (
+                <div className="p-6 h-full overflow-y-auto pb-24">
+                    <div className="flex items-center justify-between mb-8">
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-800">¡Hola, Laura!</h2>
+                            <p className="text-gray-500 text-sm">Resumen del día de Emma</p>
+                        </div>
+                        <div className="w-12 h-12 bg-cristal rounded-full flex items-center justify-center text-lumi font-bold text-lg border-2 border-lumi">
+                            E
+                        </div>
+                    </div>
+
+                    <div className="bg-lumi text-white rounded-2xl p-5 shadow-lg shadow-lumi/30 mb-6 relative overflow-hidden">
+                        <div className="relative z-10">
+                            <span className="bg-white/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">En progreso</span>
+                            <h3 className="text-xl font-bold mt-3 mb-1">Rutina de Noche</h3>
+                            <p className="text-white/80 text-sm mb-4">Proyectando en la habitación...</p>
+                            
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-3 bg-white/10 p-2 rounded-lg">
+                                    <i className="ph-fill ph-check-circle text-dorado text-xl"></i>
+                                    <span className="text-sm font-medium line-through opacity-70">Ponerse la pijama</span>
+                                </div>
+                                <div className="flex items-center gap-3 bg-white/20 p-2 rounded-lg border border-white/30">
+                                    <i className="ph ph-circle text-white text-xl animate-pulse"></i>
+                                    <span className="text-sm font-bold">Cepillarse los dientes</span>
+                                </div>
+                                <div className="flex items-center gap-3 bg-white/5 p-2 rounded-lg">
+                                    <i className="ph ph-circle text-white/50 text-xl"></i>
+                                    <span className="text-sm font-medium opacity-70">Leer un cuento</span>
+                                </div>
+                            </div>
+                        </div>
+                        <i className="ph-fill ph-moon text-9xl absolute -right-4 -bottom-4 text-white/10 rotate-12"></i>
+                    </div>
+
+                    <h4 className="font-bold text-gray-800 mb-3">Estadísticas de hoy</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center">
+                            <div className="w-14 h-14 bg-cristal rounded-full flex items-center justify-center mb-2">
+                                <i className="ph-fill ph-star text-dorado text-2xl"></i>
+                            </div>
+                            <span className="text-2xl font-bold text-gray-800">4/5</span>
+                            <span className="text-xs text-gray-500 mt-1">Rutinas completas</span>
+                        </div>
+                        <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center">
+                            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-2">
+                                <i className="ph-fill ph-clock text-green-500 text-2xl"></i>
+                            </div>
+                            <span className="text-2xl font-bold text-gray-800">0 min</span>
+                            <span className="text-xs text-gray-500 mt-1">Tiempo de pantalla</span>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            // Pantalla de Gestión de Rutinas
+            const PantallaRutinas = () => (
+                <div className="p-6 h-full overflow-y-auto pb-24">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Rutinas de Emma</h2>
+                    
+                    <div className="space-y-4">
+                        <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                                    <i className="ph-fill ph-sun text-dorado text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-gray-800">Mañana</h4>
+                                    <p className="text-xs text-gray-500">6:30 AM • 4 pasos</p>
+                                </div>
+                            </div>
+                            <button className="text-lumi"><i className="ph-bold ph-pencil-simple text-xl"></i></button>
+                        </div>
+
+                        <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                                    <i className="ph-fill ph-backpack text-orange-500 text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-gray-800">Llegada del Colegio</h4>
+                                    <p className="text-xs text-gray-500">3:00 PM • 3 pasos</p>
+                                </div>
+                            </div>
+                            <button className="text-lumi"><i className="ph-bold ph-pencil-simple text-xl"></i></button>
+                        </div>
+
+                        <div className="bg-white p-4 rounded-2xl shadow-sm border-l-4 border-lumi flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i className="ph-fill ph-moon-stars text-lumi text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-gray-800">Prepararse para dormir</h4>
+                                    <p className="text-xs text-lumi font-medium">Activa ahora • 7:30 PM</p>
+                                </div>
+                            </div>
+                            <button className="text-lumi"><i className="ph-bold ph-pencil-simple text-xl"></i></button>
+                        </div>
+                    </div>
+
+                    <button className="w-full mt-6 bg-dorado hover:bg-yellow-400 text-gray-900 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-lg shadow-dorado/30">
+                        <i className="ph-bold ph-plus text-xl"></i>
+                        Crear Nueva Rutina
+                    </button>
+                </div>
+            );
+
+            // Pantalla de Progreso
+            const PantallaProgreso = () => (
+                <div className="p-6 h-full overflow-y-auto pb-24">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Progreso Semanal</h2>
+                    <p className="text-gray-500 text-sm mb-6">Autonomía desarrollada sin pantallas.</p>
+                    
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-6">
+                        <div className="flex items-end justify-between h-32 mb-2">
+                            <div className="w-8 bg-cristal rounded-t-md h-12 relative"><span className="absolute -bottom-5 text-xs text-gray-400 left-1">L</span></div>
+                            <div className="w-8 bg-cristal rounded-t-md h-20 relative"><span className="absolute -bottom-5 text-xs text-gray-400 left-1">M</span></div>
+                            <div className="w-8 bg-lumi rounded-t-md h-32 relative shadow-lg shadow-lumi/40"><span className="absolute -bottom-5 text-xs text-lumi font-bold left-1">M</span></div>
+                            <div className="w-8 bg-gray-100 rounded-t-md h-0 relative"><span className="absolute -bottom-5 text-xs text-gray-400 left-1">J</span></div>
+                            <div className="w-8 bg-gray-100 rounded-t-md h-0 relative"><span className="absolute -bottom-5 text-xs text-gray-400 left-1">V</span></div>
+                            <div className="w-8 bg-gray-100 rounded-t-md h-0 relative"><span className="absolute -bottom-5 text-xs text-gray-400 left-1">S</span></div>
+                            <div className="w-8 bg-gray-100 rounded-t-md h-0 relative"><span className="absolute -bottom-5 text-xs text-gray-400 left-1">D</span></div>
+                        </div>
+                    </div>
+
+                    <h4 className="font-bold text-gray-800 mb-4">Insignias Ganadas</h4>
+                    <div className="grid grid-cols-3 gap-3">
+                        <div className="bg-white p-3 rounded-xl border border-gray-100 flex flex-col items-center text-center shadow-sm opacity-100">
+                            <i className="ph-fill ph-medal text-dorado text-3xl mb-1"></i>
+                            <span className="text-[10px] font-bold">Racha de 3 días</span>
+                        </div>
+                        <div className="bg-white p-3 rounded-xl border border-gray-100 flex flex-col items-center text-center shadow-sm opacity-100">
+                            <i className="ph-fill ph-tooth text-cristal text-3xl mb-1"></i>
+                            <span className="text-[10px] font-bold">Dientes limpios</span>
+                        </div>
+                        <div className="bg-white p-3 rounded-xl border border-gray-100 flex flex-col items-center text-center shadow-sm opacity-40 grayscale">
+                            <i className="ph-fill ph-trophy text-gray-400 text-3xl mb-1"></i>
+                            <span className="text-[10px] font-bold">Semana perfecta</span>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            // Pantalla de Dispositivo
+            const PantallaDispositivo = () => (
+                <div className="p-6 h-full overflow-y-auto pb-24">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Reloj LumiRoutine</h2>
+                    
+                    <div className="bg-lumi text-white rounded-2xl p-6 shadow-lg shadow-lumi/30 mb-6 flex items-center justify-between">
+                        <div>
+                            <h3 className="font-bold text-lg">Reloj de Emma</h3>
+                            <div className="flex items-center gap-2 mt-1">
+                                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                                <span className="text-sm opacity-90">Conectado</span>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <i className="ph-fill ph-battery-high text-3xl text-dorado"></i>
+                            <p className="font-bold text-sm mt-1">85%</p>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-3 mb-4">
+                                <i className="ph-fill ph-lightbulb-filament text-xl text-lumi"></i>
+                                <h4 className="font-bold text-gray-800">Brillo del Proyector</h4>
+                            </div>
+                            <input type="range" className="w-full accent-lumi" defaultValue="70" />
+                            <div className="flex justify-between text-xs text-gray-400 mt-2">
+                                <span>Suave</span>
+                                <span>Intenso</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-3 mb-4">
+                                <i className="ph-fill ph-speaker-high text-xl text-lumi"></i>
+                                <h4 className="font-bold text-gray-800">Volumen de Recompensas</h4>
+                            </div>
+                            <input type="range" className="w-full accent-lumi" defaultValue="40" />
+                            <div className="flex justify-between text-xs text-gray-400 mt-2">
+                                <span>Silencio</span>
+                                <span>Alto</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            return (
+                <div className="relative w-[375px] h-[812px] bg-gray-50 rounded-[40px] shadow-2xl overflow-hidden border-[10px] border-gray-900 mx-auto">
+                    {/* Barra de estado del teléfono simulada */}
+                    <div className="h-7 w-full bg-transparent absolute top-0 z-50 flex justify-between items-center px-6 pt-2">
+                        <span className="text-xs font-bold text-gray-800">9:41</span>
+                        <div className="w-32 h-6 bg-black rounded-b-xl absolute left-1/2 -translate-x-1/2 top-0"></div> {/* Notch */}
+                        <div className="flex items-center gap-1 text-gray-800">
+                            <i className="ph-fill ph-cell-signal-full text-xs"></i>
+                            <i className="ph-fill ph-wifi-high text-xs"></i>
+                            <i className="ph-fill ph-battery-full text-sm"></i>
+                        </div>
+                    </div>
+
+                    {/* Contenido principal según la pestaña */}
+                    <div className="pt-10 h-full">
+                        <header className="px-6 py-4 flex items-center gap-2">
+                            <i className="ph-fill ph-alarm text-lumi text-2xl"></i>
+                            <h1 className="text-xl font-black tracking-tight text-gray-900">LumiRoutine</h1>
+                        </header>
+
+                        {activeTab === 'inicio' && <PantallaInicio />}
+                        {activeTab === 'rutinas' && <PantallaRutinas />}
+                        {activeTab === 'progreso' && <PantallaProgreso />}
+                        {activeTab === 'dispositivo' && <PantallaDispositivo />}
+                    </div>
+
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
